@@ -19,7 +19,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 public class MainActivity extends AppCompatActivity {
@@ -28,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private GoogleSignInClient mGoogleSignInClient;
     private static final String TAG = "GoogleSignIn";
 
-    private Button btnGoogleSignIn, btnGoogleSignOut;
+    private Button btnGoogleSignIn, btnGoogleSignOut, btnToForgetPass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +51,9 @@ public class MainActivity extends AppCompatActivity {
         // Initialize UI elements
         btnGoogleSignIn = findViewById(R.id.btnGoogleSignIn);
         btnGoogleSignOut = findViewById(R.id.btnGoogleSignOut);
+        btnToForgetPass = findViewById(R.id.btnToForgetPass);
 
-        // Check if the user is already signed in
+        // Kiểm tra nếu người dùng đã đăng nhập
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         if (account != null) {
             updateUI(true);
@@ -63,28 +63,25 @@ public class MainActivity extends AppCompatActivity {
 
         btnGoogleSignIn.setOnClickListener(v -> signIn());
         btnGoogleSignOut.setOnClickListener(v -> signOut());
+
+        // Xử lý sự kiện click cho nút "Forget password"
+        btnToForgetPass.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, ForgotPasswordActivity.class);
+            startActivity(intent);
+        });
     }
 
-    // Method to sign in
+    // Phương thức đăng nhập
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
-    // Method to sign out
+    // Phương thức đăng xuất
     private void signOut() {
         mGoogleSignInClient.signOut().addOnCompleteListener(this, task -> {
             Toast.makeText(MainActivity.this, "Đăng xuất thành công!", Toast.LENGTH_SHORT).show();
             Log.d(TAG, "User signed out.");
-            updateUI(false);
-        });
-    }
-
-    // Method to revoke access (completely remove account association)
-    private void revokeAccess() {
-        mGoogleSignInClient.revokeAccess().addOnCompleteListener(this, task -> {
-            Toast.makeText(MainActivity.this, "Tài khoản đã bị xóa khỏi ứng dụng!", Toast.LENGTH_SHORT).show();
-            Log.d(TAG, "Access revoked.");
             updateUI(false);
         });
     }
@@ -105,14 +102,14 @@ public class MainActivity extends AppCompatActivity {
                     Log.d(TAG, "Profile Picture: " + (account.getPhotoUrl() != null ? account.getPhotoUrl().toString() : "No Profile Picture"));
                     Log.d(TAG, "-------------------------------------------------------");
 
-                    // Navigate to HomeActivity and pass data
+                    // Chuyển sang HomeActivity và truyền dữ liệu
                     Intent intent = new Intent(MainActivity.this, HomeActivity.class);
                     intent.putExtra("ID", account.getId());
                     intent.putExtra("DISPLAY_NAME", account.getDisplayName());
                     intent.putExtra("EMAIL", account.getEmail());
                     intent.putExtra("PROFILE_PICTURE", account.getPhotoUrl() != null ? account.getPhotoUrl().toString() : "");
                     startActivity(intent);
-                    finish(); // Close MainActivity
+                    finish(); // Đóng MainActivity
                 }
             } catch (ApiException e) {
                 Log.e(TAG, "Đăng nhập thất bại! Mã lỗi: " + e.getStatusCode());
@@ -121,8 +118,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-    // Method to update UI based on login status
+    // Cập nhật giao diện dựa trên trạng thái đăng nhập
     private void updateUI(boolean isSignedIn) {
         if (isSignedIn) {
             btnGoogleSignIn.setVisibility(View.GONE);

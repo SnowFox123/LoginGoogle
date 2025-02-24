@@ -13,6 +13,12 @@
         android:text="Đăng nhập bằng Google" />
 
     <Button
+        android:id="@+id/btnToForgetPass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Forget password" />
+
+    <Button
         android:id="@+id/btnGoogleSignOut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

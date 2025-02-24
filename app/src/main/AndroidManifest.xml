@@ -25,6 +25,8 @@
             android:name=".HomeActivity"
             android:exported="true">
         </activity>
+        <activity android:name=".ForgotPasswordActivity" />
+        <activity android:name=".ResetPasswordActivity" />
     </application>
 
 </manifest>
