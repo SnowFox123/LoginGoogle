@@ -6,16 +6,47 @@
     android:gravity="center"
     android:id="@+id/main">
 
-    <Button
-        android:id="@+id/btnGoogleSignIn"
+<!--    <Button-->
+<!--        android:id="@+id/btnGoogleSignIn"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Đăng nhập bằng Google"-->
+<!--        android:drawableLeft="@drawable/google_icon_resized"-->
+<!--        android:drawablePadding="8dp"-->
+<!--        android:padding="8dp"/>-->
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Đăng nhập bằng Google" />
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/google_icon"
+            android:layout_marginEnd="8dp"/>
+
+        <Button
+            android:id="@+id/btnGoogleSignIn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/yellow"
+            android:textColor="@color/black"
+            android:text="Đăng nhập bằng Google"/>
+    </LinearLayout>
+
+
+
+
 
     <Button
         android:id="@+id/btnToForgetPass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/blue"
+        android:textColor="@color/white"
+        android:layout_marginTop="20dp"
         android:text="Forget password" />
 
     <Button
@@ -23,5 +54,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Đăng xuất"
+        android:backgroundTint="@color/red"
+        android:textColor="@color/white"
         android:visibility="gone"/> <!-- Hidden initially -->
 </LinearLayout>
